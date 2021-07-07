@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {return "it's just an API why you be here?";});
+Route::get('/', function () {return "Why you be here? it's just an API  |:";});

@@ -11,5 +11,17 @@ Management soccer league system `MSLS` comes to help to administrators of soccer
     Show statis of player
     schedules
     
-`Make with :black_heart: by @Jozaguts`
+
+
+
+
+
+
+
+
+
+
+
+
+###`by @Jozaguts`
 
