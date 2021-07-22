@@ -12,5 +12,5 @@ class Team extends Model
         SoftDeletes;
 
     protected $fillable = ['name', 'group', 'category_id', 'won', 'draw', 'lost', 'goals_against', 'goals_for',
-                            'goals_difference', 'points', 'group_position', 'table_position',];
+                            'goals_difference', 'points', 'group_position', 'table_position','gender_id'];
 }

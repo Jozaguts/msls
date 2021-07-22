@@ -18,7 +18,6 @@ class CreateTeamsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->enum('group', ['a','b','c','d','e','f','g','h','i','j'])->nullable();
-            $table->unsignedBigInteger('category_id');
             $table->integer('won')->default(0);
             $table->integer('draw')->default(0);
             $table->integer('lost')->default(0);
@@ -26,8 +25,9 @@ class CreateTeamsTable extends Migration
             $table->integer('goals_for')->default(0);
             $table->integer('goals_difference')->default(0);
             $table->integer('points')->default(0);
-            $table->softDeletes();
+            $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->softDeletes();
         });
     }
     /**
