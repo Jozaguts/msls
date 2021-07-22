@@ -11,5 +11,5 @@ class Position extends Model
     use HasFactory,
         SoftDeletes;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','abbr','type'];
 }

@@ -17,6 +17,7 @@ class CreatePositionsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('abbr');
+            $table->string('type');
             $table->softDeletes();
             $table->timestamps();
         });
