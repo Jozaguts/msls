@@ -24,6 +24,7 @@ class CreateMatchDetailsTable extends Migration
             $table->enum('decided_by', ['normal','penalties']);
             $table->string('goal_score');
             $table->integer('penalty_score');
+            $table->boolean('local');
             $table->unsignedBigInteger('assistant_referee_id');
             $table->foreign('assistant_referee_id')->references('id')->on('assistant_referees')->onDelete('cascade');
             $table->unsignedBigInteger('goalkeeper_id');

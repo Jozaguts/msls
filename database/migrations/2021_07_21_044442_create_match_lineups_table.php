@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlayersTable extends Migration
+class CreateMatchLineupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,19 @@ class CreatePlayersTable extends Migration
      */
     public function up()
     {
-        Schema::create('players', function (Blueprint $table) {
+        Schema::create('match_lineups', function (Blueprint $table) {
+            $table->unsignedBigInteger('match_id');
             $table->id();
-            $table->string('name');
-            $table->integer('age');
-            $table->integer('jersey_num');
+            $table->foreign('match_id')->references('id')->on('matches')->onDelete('cascade');
+
             $table->unsignedBigInteger('team_id');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->unsignedBigInteger('position_id');
-            $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
-            $table->softDeletes();
+
+            $table->unsignedBigInteger('player_id');
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->boolean('main');
+
+
             $table->timestamps();
         });
     }
@@ -34,6 +37,6 @@ class CreatePlayersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('players');
+        Schema::dropIfExists('match_lineups');
     }
 }

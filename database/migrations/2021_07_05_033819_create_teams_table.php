@@ -26,8 +26,6 @@ class CreateTeamsTable extends Migration
             $table->integer('goals_for')->default(0);
             $table->integer('goals_difference')->default(0);
             $table->integer('points')->default(0);
-            $table->integer('group_position')->default(0);
-            $table->integer('table_position')->default(0);
             $table->softDeletes();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
