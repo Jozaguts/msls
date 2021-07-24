@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PlayerStoreRequest;
+use App\Http\Requests\PlayerUpdateRequest;
 use App\Http\Resources\PlayerCollection;
 use App\Http\Resources\PlayerResource;
 use App\Repository\PlayerRepositoryInterface;
@@ -27,14 +29,14 @@ class PlayersController extends Controller
         return new PlayerResource($this->repository->find($id));
     }
 
-    public function store(Request $request): PlayerResource
+    public function store(PlayerStoreRequest $request): PlayerResource
     {
+
        return new PlayerResource($this->repository->create($request->all()));
     }
 
-    public function update(Request $request, $id): PlayerResource
+    public function update(PlayerUpdateRequest $request, $id): PlayerResource
     {
-
         return new PlayerResource($this->repository->update($request->except('_method'), $id));
     }
 
