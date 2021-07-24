@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\PlayersController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\TeamsController;
 
@@ -14,8 +14,13 @@ use \App\Http\Controllers\TeamsController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//Route::middleware(['auth:api'])->group(function(){
+    Route::apiResources([
+        'teams' => TeamsController::class
+    ]);
+    Route::apiResources([
+        'players' => PlayersController::class
+    ]);
+//});
 
-Route::apiResources([
-    'teams' => TeamsController::class
-]);
 
