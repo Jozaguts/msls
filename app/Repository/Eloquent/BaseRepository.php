@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Log;
+use JetBrains\PhpStorm\ArrayShape;
 
 class BaseRepository implements BaseRepositoryInterface
 {
@@ -50,7 +51,7 @@ class BaseRepository implements BaseRepositoryInterface
         }
     }
 
-    public function update(array $properties, int $id)
+    public function update(array $properties, int $id): array | Model
     {
         try{
             $model = $this->model->where('id', $id)
@@ -68,7 +69,7 @@ class BaseRepository implements BaseRepositoryInterface
 
     }
 
-    public function find(int $id)
+    public function find(int $id): array| Model
     {
         try{
             return $this->model->find($id);
@@ -78,7 +79,7 @@ class BaseRepository implements BaseRepositoryInterface
         }
     }
 
-    public function delete(int $id)
+    #[ArrayShape(['message' => "string"])] public function delete(int $id): array
     {
         try{
             $model = $this->find($id);
