@@ -19,7 +19,7 @@ class CreateMatchLineupDetailsTable extends Migration
             $table->unsignedBigInteger('match_lineup_id');
             $table->foreign('match_lineup_id')->references('id')->on('match_lineups')->onDelete('cascade');
 
-            $table->unsignedBigInteger('match_actions');
+            $table->unsignedBigInteger('match_action_id');
             $table->foreign('match_action_id')->references('id')->on('match_actions')->onDelete('cascade');
 
             $table->dateTime('time');
