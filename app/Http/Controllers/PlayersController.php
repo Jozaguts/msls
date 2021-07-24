@@ -21,7 +21,7 @@ class PlayersController extends Controller
 
     public function index(Request $request): PlayerCollection
     {
-        return new PlayerCollection($this->repository->all($request));
+        return new PlayerCollection($this->repository->paginate($request));
     }
 
     public function show($id): PlayerResource

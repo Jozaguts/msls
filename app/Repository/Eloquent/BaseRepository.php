@@ -6,6 +6,7 @@ namespace App\Repository\Eloquent;
 
 use App\Repository\BaseRepositoryInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
@@ -18,10 +19,21 @@ class BaseRepository implements BaseRepositoryInterface
     {
         $this->model = $model;
     }
-    public function all($request):array | Paginator
+
+    public function paginate($request):array | Paginator
     {
         try{
             return paginator($this->model::all(), $request);
+        }catch(QueryException $e ){
+            Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
+            return ['message'=> 'oops! something went wrong please try again.'];
+        }
+    }
+
+    public function all(): array | Collection
+    {
+        try{
+           return $this->model::all();
         }catch(QueryException $e ){
             Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
             return ['message'=> 'oops! something went wrong please try again.'];
@@ -83,5 +95,4 @@ class BaseRepository implements BaseRepositoryInterface
             return ['message'=> 'oops! something went wrong please try again.'];
         }
     }
-
 }
