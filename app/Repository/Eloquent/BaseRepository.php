@@ -72,23 +72,27 @@ class BaseRepository implements BaseRepositoryInterface
     public function find(int $id): array| Model
     {
         try{
-            return $this->model->find($id);
+            $model =  $this->model->find($id);
+            if($model instanceof Model){
+                return $model;
+            }else {
+                return ['message' => 'Something went wrong with the register please try again'];
+            }
         }catch(QueryException $e ){
             Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
             return ['message'=> 'oops! something went wrong please try again.'];
         }
     }
 
-    #[ArrayShape(['message' => "string"])] public function delete(int $id): array
+     public function delete(int $id)
     {
         try{
             $model = $this->find($id);
-            if ( isset($model) ) {
-                if($model->delete()){
-                    return ['message' => 'The register was deleted successfully'];
-                }
+            if ( $model instanceof Model ) {
+                $model->delete();
+                return ['message' => 'The register was deleted successfully'];
             }else {
-                return ['message' => 'Something went wrong with the register please try again'];
+                return ['message' => "register was didn't find it"];
             }
         }
         catch(QueryException | Exception  $e){

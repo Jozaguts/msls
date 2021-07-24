@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PlayersController;
+use App\Http\Controllers\RefereeController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\TeamsController;
 
@@ -20,6 +22,12 @@ use \App\Http\Controllers\TeamsController;
     ]);
     Route::apiResources([
         'players' => PlayersController::class
+    ]);
+    Route::apiResources([
+        'categories' => CategoryController::class
+    ]);
+    Route::apiResources([
+        'referees' => RefereeController::class
     ]);
 //});
 
