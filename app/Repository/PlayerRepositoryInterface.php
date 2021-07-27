@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 /**
  * @method create(array $all)
- * @method all($request)
+ * @method all()
  * @method find($id)
  * @method update(array $data,int $id)
  * @method delete($id)

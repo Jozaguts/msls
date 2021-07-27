@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class GoalDetail extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $fillable =['match_id', 'team_id', 'player_id', 'goal_time', 'goal_type', 'play_stage', 'goal_schedule', 'goal_half'];
+    protected $fillable =['game_id', 'team_id', 'player_id', 'goal_time', 'goal_type', 'play_stage', 'goal_schedule', 'goal_half'];
 }

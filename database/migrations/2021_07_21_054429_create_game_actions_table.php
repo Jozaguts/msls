@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMatchActionsTable extends Migration
+class CreateGameActionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMatchActionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('match_actions', function (Blueprint $table) {
+        Schema::create('game_actions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
 

@@ -27,13 +27,13 @@ class PenaltyController extends Controller
     public function store(PenaltyStoreRequest $request): PenaltyResource
     {
         return new PenaltyResource($this->repository->create(
-            $request->only('match_id', 'team_id', 'player_id', 'score_goal', 'kicks_number')
+            $request->only('game_id', 'team_id', 'player_id', 'score_goal', 'kicks_number')
         ));
     }
     public function update(PenaltyUpdateRequest $request, $id): PenaltyResource
     {
         return new PenaltyResource($this->repository->update(
-            $request->only('match_id', 'team_id', 'player_id', 'score_goal', 'kicks_number'),$id)
+            $request->only('game_id', 'team_id', 'player_id', 'score_goal', 'kicks_number'),$id)
         );
     }
     public function destroy($id)

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMatchLineupDetailsTable extends Migration
+class CreateGameLineupDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateMatchLineupDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('match_lineup_details', function (Blueprint $table) {
+        Schema::create('game_lineup_details', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('match_lineup_id');
-            $table->foreign('match_lineup_id')->references('id')->on('match_lineups')->onDelete('cascade');
+            $table->unsignedBigInteger('game_lineup_id');
+            $table->foreign('game_lineup_id')->references('id')->on('game_lineups')->onDelete('cascade');
 
-            $table->unsignedBigInteger('match_action_id');
-            $table->foreign('match_action_id')->references('id')->on('match_actions')->onDelete('cascade');
+            $table->unsignedBigInteger('game_action_id');
+            $table->foreign('game_action_id')->references('id')->on('game_actions')->onDelete('cascade');
 
             $table->dateTime('time');
 

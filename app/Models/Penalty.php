@@ -10,5 +10,5 @@ class Penalty extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['match_id', 'team_id', 'player_id', 'score_goal', 'kicks_number'];
+    protected $fillable = ['game_id', 'team_id', 'player_id', 'score_goal', 'kicks_number'];
 }

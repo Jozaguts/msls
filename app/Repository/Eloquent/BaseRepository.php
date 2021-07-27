@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Log;
-use JetBrains\PhpStorm\ArrayShape;
 
 class BaseRepository implements BaseRepositoryInterface
 {
@@ -26,7 +25,7 @@ class BaseRepository implements BaseRepositoryInterface
         try{
             return paginator($this->model::all(), $request);
         }catch(QueryException $e ){
-            Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
+            Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message'=> 'oops! something went wrong please try again.'];
         }
     }
@@ -36,7 +35,7 @@ class BaseRepository implements BaseRepositoryInterface
         try{
            return $this->model::all();
         }catch(QueryException $e ){
-            Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
+            Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message'=> 'oops! something went wrong please try again.'];
         }
     }
@@ -46,7 +45,7 @@ class BaseRepository implements BaseRepositoryInterface
         try{
             return $this->model->create($properties);
         }catch(QueryException $e ){
-            Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
+            Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message'=> 'oops! something went wrong please try again.'];
         }
     }
@@ -63,7 +62,7 @@ class BaseRepository implements BaseRepositoryInterface
                 return ['message' => 'Something went wrong with the register please try again'];
             }
         }catch(QueryException $e ){
-            Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
+            Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message' => 'oops! something went wrong please try again.'];
         }
 
@@ -79,7 +78,7 @@ class BaseRepository implements BaseRepositoryInterface
                 return ['message' => 'Something went wrong with the register please try again'];
             }
         }catch(QueryException $e ){
-            Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
+            Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message'=> 'oops! something went wrong please try again.'];
         }
     }
@@ -96,7 +95,7 @@ class BaseRepository implements BaseRepositoryInterface
             }
         }
         catch(QueryException | Exception  $e){
-            Log::error($e->getMessage(),['Line' =>$e->getLine(), 'file' =>$e->getFile()]);
+            Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message'=> 'oops! something went wrong please try again.'];
         }
     }

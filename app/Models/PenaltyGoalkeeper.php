@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PenaltyGoalkeeper extends Model
 {
     use HasFactory, softDeletes;
-    protected $fillable = ['match_id','team_id', 'player_id'];
+    protected $fillable = ['game_id','team_id', 'player_id'];
 }
