@@ -15,7 +15,6 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('name');
             $table->enum('group', ['a','b','c','d','e','f','g','h','i','j'])->nullable();
             $table->integer('won')->default(0);
@@ -28,6 +27,7 @@ class CreateTeamsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
     /**
