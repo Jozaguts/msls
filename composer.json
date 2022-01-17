@@ -12,7 +12,8 @@
         "laravel-lang/lang": "~7.0",
         "laravel/framework": "^8.40",
         "laravel/passport": "^10.1",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "stancl/tenancy": "^3.5"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
