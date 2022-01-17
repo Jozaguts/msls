@@ -25,11 +25,14 @@ class TeamStoreRequest extends FormRequest
      */
     public function rules()
     {
+        //TODO validar que se pueda agregar el mismo nombre solo si no esta en la misca cagegoria
         return [
             'name' => [
                 'required',
-                Rule::unique('teams')->where(function($q){
-                    return $q->where('deleted_at',null);
+                Rule::unique('teams')->where(function($q) {
+                    return $q->where('category_id', $this->category_id);
+//                    return $q->where('deleted_at', null)
+//                        ->where('category_id', !$this->category_id);
                 }),
             ],
             'group' => 'string|max:1',

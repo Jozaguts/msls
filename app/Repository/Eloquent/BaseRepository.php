@@ -26,7 +26,10 @@ class BaseRepository implements BaseRepositoryInterface
             return paginator($this->model::all(), $request);
         }catch(QueryException $e ){
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
+            if (!auth()->guest()) {
             return ['message'=> 'oops! something went wrong please try again.'];
+            }
+                return ['message'=> 'oops! something went wrong please try again.','data'=> $e->getMessage()];
         }
     }
 
