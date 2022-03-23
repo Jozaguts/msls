@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RefereeStoreRequest;
 use App\Http\Requests\RefereeUpdateRequest;
 use App\Http\Resources\RefereeResource;
+use App\Models\Referee;
+use App\Repository\Eloquent\BaseRepository;
 use App\Repository\RefereeRepositoryInterface;
+use JetBrains\PhpStorm\Pure;
 
 class RefereeController extends Controller
 {
-    private RefereeRepositoryInterface $repository;
-    public function __construct(RefereeRepositoryInterface $repository)
+    protected BaseRepository $repository;
+
+    #[Pure] public function __construct(Referee $model)
     {
-        $this->repository = $repository;
+        $this->repository = new BaseRepository($model);
+
     }
     public function index(): RefereeResource
     {

@@ -5,19 +5,24 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryResource;
-use App\Repository\CategoryRepositoryInterface;
+use App\Models\Category;
+use App\Repository\BaseRepositoryInterface;
+use App\Repository\Eloquent\BaseRepository;
+use JetBrains\PhpStorm\Pure;
 
 class CategoryController extends Controller
 {
-    protected CategoryRepositoryInterface $repository;
+    protected BaseRepository $repository;
 
-    public function __construct(CategoryRepositoryInterface $repository)
+    #[Pure] public function __construct(Category $model)
     {
-        $this->repository = $repository;
+        $this->repository = new BaseRepository($model);
+
     }
 
     public function index(): CategoryResource
     {
+
         return new CategoryResource($this->repository->all());
     }
 
@@ -36,7 +41,7 @@ class CategoryController extends Controller
         return new CategoryResource($this->repository->update( $request->only('name','gender_id'),$id));
     }
 
-    public function destroy($id)
+    public function destroy($id): array
     {
         return $this->repository->delete($id);
     }

@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PenaltyGoalKeeperStoreRequest;
 use App\Http\Requests\PenaltyGoalKeeperUpdateRequest;
 use App\Http\Resources\PenaltyGoalKeeperResource;
-use App\Repository\PenaltyGoalKeeperRepositoryInterface;
+use App\Models\PenaltyGoalkeeper;
+use App\Repository\Eloquent\BaseRepository;
+use JetBrains\PhpStorm\Pure;
 
 class PenaltyGoalKeeperController extends Controller
 {
-    protected PenaltyGoalKeeperRepositoryInterface $repository;
+    protected BaseRepository $repository;
 
-    public function __construct(PenaltyGoalKeeperRepositoryInterface $repository)
+    #[Pure] public function __construct(PenaltyGoalkeeper $model)
     {
-        $this->repository = $repository;
+        $this->repository = new BaseRepository($model);
+
     }
 
     public function index(): PenaltyGoalKeeperResource

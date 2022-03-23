@@ -5,14 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PenaltyStoreRequest;
 use App\Http\Requests\PenaltyUpdateRequest;
 use App\Http\Resources\PenaltyResource;
+use App\Models\Penalty;
+use App\Repository\Eloquent\BaseRepository;
 use App\Repository\PenaltyRepositoryInterface;
+use JetBrains\PhpStorm\Pure;
 
 class PenaltyController extends Controller
 {
-    protected PenaltyRepositoryInterface $repository;
-    public function __construct(PenaltyRepositoryInterface $repository)
+    protected BaseRepository $repository;
+
+    #[Pure] public function __construct(Penalty $model)
     {
-        $this->repository = $repository;
+        $this->repository = new BaseRepository($model);
+
     }
 
     public function index(): PenaltyResource

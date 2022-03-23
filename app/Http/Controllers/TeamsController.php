@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TeamStoreRequest;
 use App\Http\Requests\TeamUpdateRequest;
 use App\Http\Resources\TeamResource;
-use App\Repository\TeamRepositoryInterface;
+use App\Models\Team;
+use App\Repository\Eloquent\BaseRepository;
 use Illuminate\Http\Request;
+use JetBrains\PhpStorm\Pure;
 
 class TeamsController extends Controller
 {
-    protected TeamRepositoryInterface $repository;
-    public function __construct(TeamRepositoryInterface $repository)
+    protected BaseRepository $repository;
+
+    #[Pure] public function __construct(Team $model)
     {
-        $this->repository = $repository;
+        $this->repository = new BaseRepository($model);
+
     }
 
     public function index(Request $request): TeamResource

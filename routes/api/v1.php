@@ -6,6 +6,7 @@ use App\Http\Controllers\PenaltyController;
 use App\Http\Controllers\PenaltyGoalKeeperController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\RefereeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\TeamsController;
 
@@ -44,7 +45,4 @@ Route::middleware(['auth:api'])->group(function(){
     Route::apiResources([
         'games' => GameController::class
     ]);
-
 });
-
-

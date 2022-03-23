@@ -6,17 +6,20 @@ use App\Http\Requests\PlayerStoreRequest;
 use App\Http\Requests\PlayerUpdateRequest;
 use App\Http\Resources\PlayerCollection;
 use App\Http\Resources\PlayerResource;
-use App\Repository\PlayerRepositoryInterface;
+use App\Models\Player;
+use App\Repository\Eloquent\BaseRepository;
 use Illuminate\Http\Request;
+use JetBrains\PhpStorm\Pure;
 
 
 class PlayersController extends Controller
 {
-    private PlayerRepositoryInterface $repository;
+    protected BaseRepository $repository;
 
-    public function __construct(PlayerRepositoryInterface $repository)
+    #[Pure] public function __construct(Player $model)
     {
-        $this->repository = $repository;
+        $this->repository = new BaseRepository($model);
+
     }
 
     public function index(Request $request): PlayerCollection

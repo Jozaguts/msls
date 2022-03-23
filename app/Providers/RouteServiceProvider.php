@@ -36,35 +36,17 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
-        $this->mapWebRoutes();
-        $this->mapApiRoutes();
-    }
-    protected function mapWebRoutes()
-    {
-        foreach ($this->centralDomains() as $domain) {
-            Route::middleware('web')
-                ->domain($domain)
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
-        }
-    }
-
-    protected function mapApiRoutes()
-    {
-        foreach ($this->centralDomains() as $domain) {
+        $this->routes(function () {
             Route::prefix('api/v1')
-                ->domain($domain)
                 ->middleware('api')
                 ->namespace($this->namespace)
-                ->group(base_path('routes/v1/routes.php'));
-        }
-    }
+                ->group(base_path('routes/api/v1.php'));
 
-    protected function centralDomains(): array
-    {
-        return config('tenancy.central_domains');
+            Route::middleware('web')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/web.php'));
+        });
     }
-
 
     /**
      * Configure the rate limiters for the application.
@@ -74,6 +56,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
+
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }

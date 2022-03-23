@@ -9,5 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class AssistantReferee extends Model
 {
     use HasFactory, SoftDeletes;
+    //todo remover este modelo integrarlo a referee y cololar un tipo de referee
     protected $fillable = ['name','age'];
 }
