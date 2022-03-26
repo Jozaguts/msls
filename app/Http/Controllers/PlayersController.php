@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PlayerStoreRequest;
 use App\Http\Requests\PlayerUpdateRequest;
-use App\Http\Resources\PlayerCollection;
-use App\Http\Resources\PlayerResource;
+use App\Http\Resources\BaseResource;
 use App\Models\Player;
 use App\Repository\Eloquent\BaseRepository;
 use Illuminate\Http\Request;
@@ -22,25 +21,25 @@ class PlayersController extends Controller
 
     }
 
-    public function index(Request $request): PlayerCollection
+    public function index(Request $request): BaseResource
     {
-        return new PlayerCollection($this->repository->paginate($request));
+        return new BaseResource($this->repository->paginate($request));
     }
 
-    public function show($id): PlayerResource
+    public function show($id): BaseResource
     {
-        return new PlayerResource($this->repository->find($id));
+        return new BaseResource($this->repository->find($id));
     }
 
-    public function store(PlayerStoreRequest $request): PlayerResource
+    public function store(PlayerStoreRequest $request): BaseResource
     {
 
-       return new PlayerResource($this->repository->create($request->all()));
+       return new BaseResource($this->repository->create($request->all()));
     }
 
-    public function update(PlayerUpdateRequest $request, $id): PlayerResource
+    public function update(PlayerUpdateRequest $request, $id): BaseResource
     {
-        return new PlayerResource($this->repository->update($request->except('_method'), $id));
+        return new BaseResource($this->repository->update($request->except('_method'), $id));
     }
 
     public function destroy($id)

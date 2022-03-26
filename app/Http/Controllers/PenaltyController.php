@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PenaltyStoreRequest;
 use App\Http\Requests\PenaltyUpdateRequest;
-use App\Http\Resources\PenaltyResource;
+use App\Http\Resources\BaseResource;
 use App\Models\Penalty;
 use App\Repository\Eloquent\BaseRepository;
-use App\Repository\PenaltyRepositoryInterface;
 use JetBrains\PhpStorm\Pure;
 
 class PenaltyController extends Controller
@@ -20,24 +19,24 @@ class PenaltyController extends Controller
 
     }
 
-    public function index(): PenaltyResource
+    public function index(): BaseResource
     {
-        return new PenaltyResource($this->repository->all());
+        return new BaseResource($this->repository->all());
     }
 
-    public function show($id): PenaltyResource
+    public function show($id): BaseResource
     {
-        return new PenaltyResource($this->repository->find($id));
+        return new BaseResource($this->repository->find($id));
     }
-    public function store(PenaltyStoreRequest $request): PenaltyResource
+    public function store(PenaltyStoreRequest $request): BaseResource
     {
-        return new PenaltyResource($this->repository->create(
+        return new BaseResource($this->repository->create(
             $request->only('game_id', 'team_id', 'player_id', 'score_goal', 'kicks_number')
         ));
     }
-    public function update(PenaltyUpdateRequest $request, $id): PenaltyResource
+    public function update(PenaltyUpdateRequest $request, $id): BaseResource
     {
-        return new PenaltyResource($this->repository->update(
+        return new BaseResource($this->repository->update(
             $request->only('game_id', 'team_id', 'player_id', 'score_goal', 'kicks_number'),$id)
         );
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\BaseResource;
 use App\Models\Category;
 use App\Repository\BaseRepositoryInterface;
 use App\Repository\Eloquent\BaseRepository;
@@ -20,25 +20,25 @@ class CategoryController extends Controller
 
     }
 
-    public function index(): CategoryResource
+    public function index(): BaseResource
     {
 
-        return new CategoryResource($this->repository->all());
+        return new BaseResource($this->repository->all());
     }
 
-    public function show($id): CategoryResource
+    public function show($id): BaseResource
     {
-        return new CategoryResource($this->repository->find($id));
+        return new BaseResource($this->repository->find($id));
     }
 
-    public function store(CategoryStoreRequest $request): CategoryResource
+    public function store(CategoryStoreRequest $request): BaseResource
     {
-        return new CategoryResource($this->repository->create($request->only('name','gender_id')));
+        return new BaseResource($this->repository->create($request->only('name','gender_id')));
     }
 
-    public function update(CategoryUpdateRequest $request, $id): CategoryResource
+    public function update(CategoryUpdateRequest $request, $id): BaseResource
     {
-        return new CategoryResource($this->repository->update( $request->only('name','gender_id'),$id));
+        return new BaseResource($this->repository->update( $request->only('name','gender_id'),$id));
     }
 
     public function destroy($id): array

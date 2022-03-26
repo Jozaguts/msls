@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TeamStoreRequest;
 use App\Http\Requests\TeamUpdateRequest;
-use App\Http\Resources\TeamResource;
+use App\Http\Resources\BaseResource;
 use App\Models\Team;
 use App\Repository\Eloquent\BaseRepository;
 use Illuminate\Http\Request;
@@ -20,27 +20,27 @@ class TeamsController extends Controller
 
     }
 
-    public function index(Request $request): TeamResource
+    public function index(Request $request): BaseResource
     {
-        return new TeamResource($this->repository->paginate($request));
+        return new BaseResource($this->repository->paginate($request));
     }
 
-    public function show($id): TeamResource
+    public function show($id): BaseResource
     {
-        return new TeamResource($this->repository->find($id));
+        return new BaseResource($this->repository->find($id));
     }
 
-    public function store(TeamStoreRequest $request): TeamResource
+    public function store(TeamStoreRequest $request): BaseResource
     {
-        return new TeamResource($this->repository->create($request->only('name', 'group', 'category_id', 'won', 'draw', 'lost', 'goals_against', 'goals_for',
+        return new BaseResource($this->repository->create($request->only('name', 'group', 'category_id', 'won', 'draw', 'lost', 'goals_against', 'goals_for',
             'goals_difference', 'points','gender_id'))
         );
     }
 
 
-    public function update(TeamUpdateRequest $request, $id): TeamResource
+    public function update(TeamUpdateRequest $request, $id): BaseResource
     {
-        return new TeamResource($this->repository->update($request->only('name', 'group', 'category_id', 'won', 'draw', 'lost', 'goals_against', 'goals_for',
+        return new BaseResource($this->repository->update($request->only('name', 'group', 'category_id', 'won', 'draw', 'lost', 'goals_against', 'goals_for',
             'goals_difference', 'points','gender_id'),$id)
         );
     }
