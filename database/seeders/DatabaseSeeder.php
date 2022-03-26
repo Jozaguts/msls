@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Player;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Factories\Sequence;
+use Illuminate\Support\Facades\Artisan;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -14,12 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+//         \App\Models\User::factory(10)->create();
         $this->call(PositionsTableSeeder::class);
         $this->call(GendersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(TeamsTableSeeder::class);
-
+        Artisan::call('passport:install');
         $players = Player::factory()
             ->count(175)
             ->state(new Sequence(
