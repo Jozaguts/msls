@@ -54,17 +54,17 @@ class BaseRepository implements BaseRepositoryInterface
         }
     }
 
-    public function update(array $properties, int $id): array | Model
+    public function update(array $properties, int $id)
     {
         try{
-            $model = $this->model->where('id', $id)
-                ->where('deleted_at',null)->first();
-            if(isset($model)){
-                $model->update($properties);
-                return $this->model->find($id);
-            }else {
-                return ['message' => 'Something went wrong with the register please try again'];
-            }
+
+            $model = $this->model::where('id', $id)
+                ->where('deleted_at', null)
+                ->update($properties);
+
+                if ($model) return $this->find($id);
+                return  ['message' => 'Something went wrong with the register please try again'];
+
         }catch(QueryException $e ){
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message' => 'oops! something went wrong please try again.'];
