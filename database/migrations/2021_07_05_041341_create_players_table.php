@@ -19,10 +19,10 @@ class CreatePlayersTable extends Migration
             $table->string('paternal_name');
             $table->string('maternal_name');
             $table->date('birthdate');
-            $table->integer('jersey_num');
-            $table->unsignedBigInteger('team_id');
+            $table->integer('jersey_num')->nullable();
+            $table->unsignedBigInteger('team_id')->nullable();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->unsignedBigInteger('position_id');
+            $table->unsignedBigInteger('position_id')->nullable();
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
