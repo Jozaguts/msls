@@ -95,7 +95,7 @@ class BaseRepository implements BaseRepositoryInterface
                 $model->delete();
                 return ['message' => 'The register was deleted successfully'];
             }else {
-                return ['message' => "register was didn't find it"];
+                return ['message' => "register didn't find it"];
             }
         }
         catch(QueryException | Exception  $e){

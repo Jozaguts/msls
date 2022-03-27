@@ -43,7 +43,6 @@ class CategoryTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, ['name' => 'Premier','gender_id'=> '1']);
-
         $response->assertCreated()
         ->assertJsonStructure(['data' => ['id','name','gender_id','created_at','updated_at']]);
     }
