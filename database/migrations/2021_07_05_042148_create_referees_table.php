@@ -16,7 +16,11 @@ class CreateRefereesTable extends Migration
         Schema::create('referees', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('age');
+            $table->string('paternal_name');
+            $table->string('maternal_name');
+            $table->date('birthdate');
+            $table->string('phone')->nullable();
+            $table->enum('type',['central','asistente 1','asistente 2', 'cuarto arbitro']);
             $table->softDeletes();
             $table->timestamps();
         });

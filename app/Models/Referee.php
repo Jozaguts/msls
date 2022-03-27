@@ -10,5 +10,5 @@ class Referee extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name','age'];
+    protected $fillable = ['name','paternal_name','maternal_name','birthdate','phone','type'];
 }
