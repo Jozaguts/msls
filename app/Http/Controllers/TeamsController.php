@@ -22,7 +22,7 @@ class TeamsController extends Controller
 
     public function index(Request $request): BaseResource
     {
-        return new BaseResource($this->repository->paginate($request));
+        return new BaseResource($this->repository->all($request));
     }
 
     public function show($id): BaseResource
@@ -32,9 +32,7 @@ class TeamsController extends Controller
 
     public function store(TeamStoreRequest $request): BaseResource
     {
-        return new BaseResource($this->repository->create($request->only('name', 'group', 'category_id', 'won', 'draw', 'lost', 'goals_against', 'goals_for',
-            'goals_difference', 'points','gender_id'))
-        );
+        return new BaseResource($this->repository->create($request->validated()));
     }
 
 
@@ -46,8 +44,8 @@ class TeamsController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy($id): BaseResource
     {
-       return $this->repository->delete($id);
+       return new BaseResource($this->repository->delete($id));
     }
 }
