@@ -28,14 +28,15 @@ class RefereeController extends Controller
     }
     public function store(RefereeStoreRequest $request): BaseResource
     {
-        return new BaseResource($this->repository->create($request->only('name','age')));
+
+        return new BaseResource($this->repository->create($request->validated()));
     }
     public function update(RefereeUpdateRequest $request,$id): BaseResource
     {
-        return new BaseResource($this->repository->update($request->only('name','age'),$id));
+        return new BaseResource($this->repository->update($request->validated(),$id));
     }
-    public function destroy($id)
+    public function destroy($id): BaseResource
     {
-        return $this->repository->delete($id);
+        return new BaseResource($this->repository->delete($id));
     }
 }
