@@ -50,7 +50,6 @@ class BaseRepository implements BaseRepositoryInterface
         try{
             return $this->model->create($properties);
         }catch(\Exception $e ){
-            response()->setStatusCode($e->getCode());
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return ['message'=> 'oops! something went wrong please try again.'];
         }
