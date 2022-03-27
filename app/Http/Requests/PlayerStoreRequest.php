@@ -25,7 +25,9 @@ class PlayerStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'age' => 'required',
+            'paternal_name' => 'required|string',
+            'maternal_name' => 'required|string',
+            'birthdate' => 'date|required',
             'jersey_num' => 'required',
             'team_id' => 'required|exists:teams,id',
             'position_id' => 'required|exists:positions,id',

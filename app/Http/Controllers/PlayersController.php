@@ -23,7 +23,7 @@ class PlayersController extends Controller
 
     public function index(Request $request): BaseResource
     {
-        return new BaseResource($this->repository->paginate($request));
+        return new BaseResource($this->repository->all($request));
     }
 
     public function show($id): BaseResource
@@ -42,9 +42,9 @@ class PlayersController extends Controller
         return new BaseResource($this->repository->update($request->except('_method'), $id));
     }
 
-    public function destroy($id)
+    public function destroy($id): BaseResource
     {
-        return $this->repository->delete($id);
+        return new BaseResource($this->repository->delete($id));
     }
 
 
