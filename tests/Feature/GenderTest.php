@@ -91,7 +91,7 @@ class GenderTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
-            ->postJson("api/v1/hard-delete",['model'=>'genders','id'=> 1]);
+            ->postJson("api/v1/hard-delete",['table'=>'genders','id'=> 1]);
 
         $response->assertSuccessful()
             ->assertExactJson(['data' => ["message" => "The register was hard deleted successfully"]]);

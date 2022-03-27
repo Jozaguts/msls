@@ -28,7 +28,7 @@ Route::middleware(['auth:api','verified'])->group(function(){
     Route::post('/hard-delete', function() {
         DB::beginTransaction();
         try{
-            DB::table(request()->input('model'))
+            DB::table(request()->input('table'))
                 ->delete(request()->input('id'));
             DB::commit();
              return response()->json(['data'=> ['message' => 'The register was hard deleted successfully']]);
