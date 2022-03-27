@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RefereeStoreRequest extends FormRequest
 {
@@ -24,8 +25,16 @@ class RefereeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-           'name' => 'string|required',
-           'age' => 'integer|required'
+            'name' => 'string|required',
+            'paternal_name' => 'string|required',
+            'maternal_name' => 'string|required',
+            'birthdate' => 'string|date',
+            'phone' => 'digits:10|integer|min:10',
+            'type'=> [
+                'required',
+                Rule::in(['central','asistente 1','asistente 2', 'cuarto arbitro']),
+            ],
+//            'type'=> 'required'|'in:central,asistente 1,asistente 2,cuarto arbitro',
         ];
     }
 }
