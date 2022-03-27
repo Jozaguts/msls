@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 use Illuminate\Validation\Rule;
 
+/**
+ * @property mixed category_id
+ */
 class TeamStoreRequest extends FormRequest
 {
     /**
@@ -25,25 +28,23 @@ class TeamStoreRequest extends FormRequest
      */
     public function rules()
     {
-        //TODO validar que se pueda agregar el mismo nombre solo si no esta en la misca cagegoria
         return [
             'name' => [
                 'required',
                 Rule::unique('teams')->where(function($q) {
                     return $q->where('category_id', $this->category_id);
-//                    return $q->where('deleted_at', null)
-//                        ->where('category_id', !$this->category_id);
                 }),
             ],
-            'group' => 'string|max:1',
+            'group' => 'string|max:1|nullable',
             'category_id' => 'required|exists:categories,id',
-            'won' => 'integer',
-            'draw' => 'integer',
-            'lost' => 'integer',
-            'goals_against' => 'integer',
-            'goals_for' => 'integer',
-            'goals_difference' => 'integer',
-            'points' => 'integer',
+            'won' => 'integer|nullable',
+            'draw' => 'integer|nullable',
+            'lost' => 'integer|nullable',
+            'goals_against' => 'integer|nullable',
+            'goals_for' => 'integer|nullable',
+            'goals_difference' => 'integer|nullable',
+            'points' => 'integer|nullable',
+
         ];
     }
 }
