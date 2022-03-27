@@ -41,8 +41,8 @@ class CategoryController extends Controller
         return new BaseResource($this->repository->update( $request->only('name','gender_id'),$id));
     }
 
-    public function destroy($id): array
+    public function destroy($id): BaseResource
     {
-        return $this->repository->delete($id);
+        return new BaseResource( $this->repository->delete($id));
     }
 }
