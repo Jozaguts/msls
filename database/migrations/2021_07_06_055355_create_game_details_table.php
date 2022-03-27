@@ -36,7 +36,7 @@ class CreateGameDetailsTable extends Migration
             $table->time('stop1');
             $table->time('stop2');
             $table->unsignedBigInteger('assistant_referee_id');
-            $table->foreign('assistant_referee_id')->references('id')->on('assistant_referees')->onDelete('cascade');
+            $table->foreign('assistant_referee_id')->references('id')->on('referees')->onDelete('cascade');
             $table->unsignedBigInteger('goalkeeper_id');
             $table->foreign('goalkeeper_id')->references('id')->on('players')->onDelete('cascade');
             $table->softDeletes();
