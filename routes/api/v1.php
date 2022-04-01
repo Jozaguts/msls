@@ -23,8 +23,13 @@ use \App\Http\Controllers\TeamsController;
 |
 */
 require __DIR__ . '/../json-api-auth.php';
+use Laravel\Socialite\Facades\Socialite;
 
-Route::middleware(['auth:api','verified'])->group(function(){
+Route::group(['prefix' => '/auth',['middleware' => 'throttle:20,5']], function(){
+    Route::get('/login/{service}',[\App\Http\Controllers\SocialLoginController::class, 'redirect']);
+    Route::get('/login/{service}/callback',[\App\Http\Controllers\SocialLoginController::class, 'callback']);
+});
+Route::middleware(['auth:api'])->group(function(){
     Route::post('/hard-delete', function() {
         DB::beginTransaction();
         try{

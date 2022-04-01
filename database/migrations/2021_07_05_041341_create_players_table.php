@@ -15,10 +15,9 @@ class CreatePlayersTable extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('paternal_name');
-            $table->string('maternal_name');
-            $table->date('birthdate');
+
+            $table->unsignedBigInteger('user_id')->nullable(); //todo quitar nullable antes de mandar a prod
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('jersey_num')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
