@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -40,11 +41,18 @@ class RegistrationTest extends TestCase
     {
         $response = $this->post(route('json-api-auth.register'), [
             'name' => 'Test User',
+            'paternal_name' => 'last name',
+            'maternal_name' => 'last name',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
+            'phone' => '3222397179',
+            'facebook_id'=> null,
+            'google_id'=> null,
+            'user_type' => null,
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
         ]);
-
         $this->assertAuthenticated();
 
         $response->assertSee([

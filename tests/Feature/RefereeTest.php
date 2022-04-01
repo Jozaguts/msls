@@ -15,7 +15,7 @@ class RefereeTest extends TestCase
 
     public function test_referee_endpoint_exist()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -27,7 +27,7 @@ class RefereeTest extends TestCase
 
     public function test_attributes_required_fails()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, []);
@@ -36,7 +36,7 @@ class RefereeTest extends TestCase
 
     public function test_store_referee()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, [
@@ -48,7 +48,7 @@ class RefereeTest extends TestCase
 
     public function test_get_all()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->get($this->basePath);
@@ -57,7 +57,7 @@ class RefereeTest extends TestCase
 
     public function test_update_referee()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $this->createReferee();
         $attributes = [
             'name'=> 'Jose Sagit updated', 'paternal_name'=> 'Gutierrez updated', 'maternal_name'=> 'Terrazas updated',
@@ -72,7 +72,7 @@ class RefereeTest extends TestCase
 
     public function test_delete_referee()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
        $this->createReferee();
 
@@ -86,7 +86,7 @@ class RefereeTest extends TestCase
     public function test_hard_delete()
     {
         $attributes = ['name' => 'Femenil','abbr' =>'f'];
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $this->createReferee();
 

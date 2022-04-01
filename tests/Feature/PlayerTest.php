@@ -16,8 +16,7 @@ class PlayerTest extends TestCase
 
     public function test_player_endpoint_exist()
     {
-        $user = User::factory()->create();
-
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->get($this->basePath);
@@ -28,7 +27,7 @@ class PlayerTest extends TestCase
 
     public function test_attributes_required_fails()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, []);
@@ -39,23 +38,22 @@ class PlayerTest extends TestCase
     {
         Artisan::call('migrate:fresh --seed');
         $user = User::factory()->create();
-        $attributes = ['name' => 'Jose Sagit',
-            'paternal_name' => 'Gutierrez',
-            'maternal_name' => 'Terrazas',
-            'birthdate' => '1989-04-05',
+        $attributes = [
+            'user_id'=> 1,
             'jersey_num' => 5,
             'team_id' => 1,
             'position_id'=> 1];
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, $attributes);
+
         $response->assertCreated()
             ->assertJson(['data' => $attributes]);
     }
 
     public function test_get_all()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->get($this->basePath);
@@ -65,12 +63,10 @@ class PlayerTest extends TestCase
     public function test_update_player()
     {
 
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $this->createplayer();
-        $attributes = ['name' => 'Jose Sagit updated',
-            'paternal_name' => 'Gutierrez',
-            'maternal_name' => 'Terrazas',
-            'birthdate' => '1989-01-01',
+        $attributes = [
+            'user_id'=>1,
             'jersey_num' => 9,
             'team_id' => 1,
             'position_id'=> 1]
@@ -79,13 +75,14 @@ class PlayerTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->putJson("{$this->basePath}/1",$attributes);
+
         $response->assertSuccessful()
             ->assertJson(['data' => $attributes]);
     }
 
     public function test_delete_player()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $this->createplayer();
 
@@ -99,7 +96,7 @@ class PlayerTest extends TestCase
     public function test_hard_delete()
     {
 
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $this->createplayer();
 
@@ -114,14 +111,7 @@ class PlayerTest extends TestCase
     private function createplayer()
     {
         Artisan::call('migrate:fresh --seed');
-        $attributes = ['name' => 'Jose Sagit',
-            'paternal_name' => 'Gutierrez',
-            'birthdate' => '1989-04-05',
-            'maternal_name' => 'Terrazas',
-            'jersey_num' => 5,
-            'team_id' => 1,
-            'position_id'=> 1]
-        ;
+        $attributes = ['user_id'=>1,'birthdate' => '1989-04-05', 'jersey_num' => 5, 'team_id' => 1, 'position_id'=> 1];
 
         player::create($attributes);
     }

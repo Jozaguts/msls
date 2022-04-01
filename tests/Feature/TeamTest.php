@@ -17,7 +17,7 @@ class TeamTest extends TestCase
 
     public function test_team_endpoint_exist()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -29,7 +29,7 @@ class TeamTest extends TestCase
 
     public function test_attributes_required_fails()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, []);
@@ -38,7 +38,7 @@ class TeamTest extends TestCase
 
     public function test_store_team()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $genderData = ['name' => 'Femenil','abbr' =>'f'];
         $categoriesData =['name' => 'Premier', 'gender_id'=> 1];
@@ -66,7 +66,7 @@ class TeamTest extends TestCase
 
     public function test_get_all()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->get($this->basePath);
@@ -75,7 +75,7 @@ class TeamTest extends TestCase
 
     public function test_update_team()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $this->createteam();
         $attributes = [
             'name' => 'Cruz azul Updated',
@@ -99,7 +99,7 @@ class TeamTest extends TestCase
 
     public function test_delete_team()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $this->createteam();
 
@@ -113,7 +113,7 @@ class TeamTest extends TestCase
     public function test_hard_delete()
     {
 
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $this->createteam();
 

@@ -16,7 +16,7 @@ class GenderTest extends TestCase
 
     public function test_gender_endpoint_exist()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -26,7 +26,7 @@ class GenderTest extends TestCase
 
     public function test_attributes_required_fails()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
                         ->postJson($this->basePath, []);
@@ -35,7 +35,7 @@ class GenderTest extends TestCase
 
     public function test_store_gender()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, ['name' => 'Varonil','abbr'=> 'v']);
@@ -44,7 +44,7 @@ class GenderTest extends TestCase
 
     public function test_get_all()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->get($this->basePath);
@@ -53,7 +53,7 @@ class GenderTest extends TestCase
 
     public function test_update_gender()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $attributes = ['name' => 'Femenil','abbr' =>'f'];
 
         Gender::create($attributes);
@@ -71,7 +71,7 @@ class GenderTest extends TestCase
     public function test_delete_gender()
     {
         $attributes = ['name' => 'Femenil','abbr' =>'f'];
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         Gender::create($attributes);
 
@@ -85,7 +85,7 @@ class GenderTest extends TestCase
     public function test_hard_delete()
     {
         $attributes = ['name' => 'Femenil','abbr' =>'f'];
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         Gender::create($attributes);
 

@@ -16,7 +16,7 @@ class CategoryTest extends TestCase
 
     public function test_category_endpoint_exist()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -27,7 +27,7 @@ class CategoryTest extends TestCase
 
     public function test_attributes_required_fails()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, []);
@@ -37,7 +37,7 @@ class CategoryTest extends TestCase
     public function test_store_category()
     {
 
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         Gender::create(['name' => 'Femenil','abbr' => 'f']);
 
         $response = $this->actingAs($user, 'api')
@@ -49,7 +49,7 @@ class CategoryTest extends TestCase
 
     public function test_get_all()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $this->createCategories();
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -59,7 +59,7 @@ class CategoryTest extends TestCase
 
     public function test_update_category_dont_accept_repeated_values()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $this->createCategories();
 
         $response = $this->actingAs($user, 'api')
@@ -69,7 +69,7 @@ class CategoryTest extends TestCase
     }
     public function test_update_category()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
         $this->createCategories();
 
         $response = $this->actingAs($user, 'api')
@@ -81,7 +81,7 @@ class CategoryTest extends TestCase
 
     public function test_delete_category()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
        $this->createCategories();
 
@@ -95,7 +95,7 @@ class CategoryTest extends TestCase
     public function test_hard_delete()
     {
 
-        $user = User::factory()->create();
+        $user = User::factory()->make();
 
         $this->createCategories();
 
