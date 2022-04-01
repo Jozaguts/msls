@@ -23,7 +23,6 @@ class TeamUpdateRequest extends FormRequest
      */
     public function rules()
     {
-    //TODO agregar la regla 'unique:users,name,' . $this->user cuando el login este implementado
         return [
             'name' => 'string',
             'group' => 'string|max:1',

@@ -21,6 +21,8 @@ class RegisterController
             /** @var User $user */
             $user = User::query()->create([
                 'name' => $request->get('name'),
+                'paternal_name' => $request->get('name'),
+                'maternal_name' => $request->get('name'),
                 'email' => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
             ]);

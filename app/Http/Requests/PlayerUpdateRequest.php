@@ -24,11 +24,10 @@ class PlayerUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string',
-            'age' => 'integer',
+            'user_id' =>'required|exists:users,id',
+            'team_id' => 'required|exists:teams,id',
+            'position_id' => 'required|exists:positions,id',
             'jersey_num' => 'integer',
-            'team_id' => 'integer|exists:teams,id',
-            'position_id' => 'integer|exists:positions,id',
         ];
     }
 }

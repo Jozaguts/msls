@@ -7,6 +7,7 @@ use App\Http\Requests\JsonApiAuth\LoginRequest;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController
 {
