@@ -16,14 +16,13 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->time('time');
             $table->string('location');
             $table->unsignedBigInteger('home_team_id');
             $table->foreign('home_team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->unsignedBigInteger('away_team_id');
             $table->foreign('away_team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->unsignedBigInteger('referee_id');
-            $table->foreign('referee_id')->references('id')->on('referees')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

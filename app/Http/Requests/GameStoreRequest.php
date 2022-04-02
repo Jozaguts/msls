@@ -26,13 +26,11 @@ class GameStoreRequest extends FormRequest
 //        TODO  REFORMULAR TABLA GAMES
 //        RESULT score
         return [
-            'date' =>'required|',
-            'result' =>'required|',
-            'score' =>'required|',
-            'mvp' =>'required|',
-            'referee_id' =>'required|',
-            'stop1' =>'required|',
-            'stop2' => 'required|',
+            'date' =>'required|date',
+            'location' => 'required|string',
+            'home_team_id' => 'required|exists:teams,id',
+            'away_team_id' => 'required|exists:teams,id',
+            'category_id' => 'required|exists:categories,id',
         ];
     }
 }
