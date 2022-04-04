@@ -79,7 +79,7 @@ class GenderTest extends TestCase
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->deleteJson("{$this->basePath}/1");
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was deleted successfully"]]);
     }
 
     public function test_hard_delete()
@@ -94,7 +94,7 @@ class GenderTest extends TestCase
             ->postJson("api/v1/hard-delete",['table'=>'genders','id'=> 1]);
 
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was hard deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
     }
 
 

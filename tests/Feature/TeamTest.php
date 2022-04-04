@@ -107,7 +107,7 @@ class TeamTest extends TestCase
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->deleteJson("{$this->basePath}/1");
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was deleted successfully"]]);
     }
 
     public function test_hard_delete()
@@ -122,7 +122,7 @@ class TeamTest extends TestCase
             ->postJson("api/v1/hard-delete",['table'=>'teams','id'=> 1]);
 
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was hard deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
     }
 
     private function createteam()

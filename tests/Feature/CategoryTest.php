@@ -7,6 +7,7 @@ use App\Models\Gender;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
@@ -89,12 +90,12 @@ class CategoryTest extends TestCase
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->deleteJson("{$this->basePath}/1");
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was deleted successfully"]]);
     }
 
     public function test_hard_delete()
     {
-
+        Artisan::call('migrate:fresh --seed');
         $user = User::factory()->make();
 
         $this->createCategories();
@@ -104,7 +105,7 @@ class CategoryTest extends TestCase
             ->postJson("api/v1/hard-delete",['table'=>'categories','id'=> 1]);
 
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was hard deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
     }
 
     private function createCategories()

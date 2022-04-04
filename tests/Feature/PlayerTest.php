@@ -69,8 +69,7 @@ class PlayerTest extends TestCase
             'user_id'=>1,
             'jersey_num' => 9,
             'team_id' => 1,
-            'position_id'=> 1]
-        ;
+            'position_id'=> 1];
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -90,7 +89,7 @@ class PlayerTest extends TestCase
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->deleteJson("{$this->basePath}/1");
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was deleted successfully"]]);
     }
 
     public function test_hard_delete()
@@ -105,7 +104,7 @@ class PlayerTest extends TestCase
             ->postJson("api/v1/hard-delete",['table'=>'players','id'=> 1]);
 
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was hard deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
     }
 
     private function createplayer()

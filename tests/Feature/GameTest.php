@@ -62,12 +62,16 @@ class GameTest extends TestCase
     {
         $user = User::factory()->make();
         $this->creategame();
-        $attributes = ['date' => now(), 'location' => 'La sabana updated', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
-
+        $attributes = [
+            'date' => now(),
+            'location' => 'La sabana updated',
+            'home_team_id' => 1,
+            'away_team_id' => 2,
+            'category_id' => 1
+        ];
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->putJson("{$this->basePath}/1",$attributes);
-
         $response->assertSuccessful();
     }
 
@@ -81,22 +85,21 @@ class GameTest extends TestCase
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->deleteJson("{$this->basePath}/1");
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was deleted successfully"]]);
     }
 
     public function test_hard_delete()
     {
 
+        $this->creategame();
         $user = User::factory()->make();
 
-        $this->creategame();
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson("api/v1/hard-delete",['table'=>'games','id'=> 1]);
-
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was hard deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
     }
 
     private function creategame()
