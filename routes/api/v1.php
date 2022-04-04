@@ -33,10 +33,11 @@ Route::middleware(['auth:api'])->group(function(){
     Route::post('/hard-delete', function() {
         DB::beginTransaction();
         try{
-            DB::table(request()->input('table'))
+            $result = DB::table(request()->input('table'))
                 ->delete(request()->input('id'));
             DB::commit();
-             return response()->json(['data'=> ['message' => 'The register was hard deleted successfully']]);
+
+             return response()->json(['data'=> ['message' => $result ? 'register was hard deleted successfully' : 'register not fount']]);
         }catch(Exception $e){
             DB::rollBack();
             return response()->json( $e->getMessage(),400);
