@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Referee;
+
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class RefereeTest extends TestCase
@@ -40,9 +41,15 @@ class RefereeTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, [
-                'name'=> 'Jose Sagit', 'paternal_name'=> 'Gutierrez', 'maternal_name'=> 'Terrazas',
-                'birthdate'=> '1989-04-05', 'phone'=> '3222397179', 'type'=> 'central',
+                'name'=> 'Jose Sagit',
+                'paternal_name'=> 'Gutierrez',
+                'maternal_name'=> 'Terrazas',
+                'email'=> 'test@test.com',
+                'birthdate'=> '1989-04-05',
+                'phone'=> '3222397179',
+                'type'=> 'central',
                 ]);
+        $response->dump();
         $response->assertCreated();
     }
 
@@ -52,6 +59,7 @@ class RefereeTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->get($this->basePath);
+
         $response->assertExactJson(['data' => []]);
     }
 
@@ -60,13 +68,20 @@ class RefereeTest extends TestCase
         $user = User::factory()->make();
         $this->createReferee();
         $attributes = [
-            'name'=> 'Jose Sagit updated', 'paternal_name'=> 'Gutierrez updated', 'maternal_name'=> 'Terrazas updated',
-            'birthdate'=> '1989-01-01', 'phone'=> '1234567890', 'type'=> 'asistente 1',
+            'name'=> 'Jose Sagit updated',
+            'paternal_name'=> 'Gutierrez updated',
+            'maternal_name'=> 'Terrazas updated',
+            'birthdate'=> '1989-01-01',
+            'phone'=> '1234567890',
+            'password'=> Str::random(8),
+            'email'=> 'test@test.com',
             ];
+
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->putJson("{$this->basePath}/1",$attributes);
+
         $response->assertSuccessful();
     }
 
@@ -79,8 +94,9 @@ class RefereeTest extends TestCase
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->deleteJson("{$this->basePath}/1");
+
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was deleted successfully"]]);
     }
 
     public function test_hard_delete()
@@ -92,18 +108,22 @@ class RefereeTest extends TestCase
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
-            ->postJson("api/v1/hard-delete",['table'=>'referees','id'=> 1]);
+            ->postJson("api/v1/hard-delete",['table'=>'users','id'=> 1]);
 
         $response->assertSuccessful()
-            ->assertExactJson(['data' => ["message" => "The register was hard deleted successfully"]]);
+            ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
     }
     private function createReferee()
     {
         $attributes = [
-            'name'=> 'Jose Sagit', 'paternal_name'=> 'Gutierrez', 'maternal_name'=> 'Terrazas',
+            'name'=> 'Jose Sagit',
+            'paternal_name'=> 'Gutierrez',
+            'maternal_name'=> 'Terrazas',
+            'email'=> 'test@test.com',
+            'password'=> Str::random(8),
             'birthdate'=> '1989-04-05', 'phone'=> '3222397179', 'type'=> 'central',
         ];
 
-        Referee::create($attributes);
+        User::create($attributes);
     }
 }

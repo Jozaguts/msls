@@ -28,13 +28,9 @@ class RefereeStoreRequest extends FormRequest
             'name' => 'string|required',
             'paternal_name' => 'string|required',
             'maternal_name' => 'string|required',
+            'email' => 'string|required',
             'birthdate' => 'string|date',
             'phone' => 'digits:10|integer|min:10',
-            'type'=> [
-                'required',
-                Rule::in(['central','asistente 1','asistente 2', 'cuarto arbitro']),
-            ],
-//            'type'=> 'required'|'in:central,asistente 1,asistente 2,cuarto arbitro',
         ];
     }
 }

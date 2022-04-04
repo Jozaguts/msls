@@ -27,13 +27,11 @@ class RefereeUpdateRequest extends FormRequest
         return [
             'name' => 'string|required',
             'paternal_name' => 'string|required',
+            'password' => 'string',
+            'email' => 'string',
             'maternal_name' => 'string|required',
             'birthdate' => 'string|date',
             'phone' => 'digits:10|integer|min:10',
-            'type'=> [
-                'required',
-                Rule::in(['central','asistente 1','asistente 2', 'cuarto arbitro']),
-            ],
         ];
     }
 }

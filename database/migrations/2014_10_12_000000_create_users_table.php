@@ -18,14 +18,13 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('paternal_name')->nullable();
             $table->string('maternal_name')->nullable();
+            $table->string('password');
             $table->string('email')->unique();
             $table->string('phone',15)->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('social_provider_id')->default(null)->nullable();
             $table->string('social_provider_token')->default(null)->nullable();
             $table->string('social_provider_refresh_token')->default(null)->nullable();
-            $table->string('user_type')->default(null)->nullable();
-            $table->string('password');
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
