@@ -25,12 +25,10 @@ class BaseRepository implements BaseRepositoryInterface
         try{
             return paginator($this->model::all(), $request);
         }catch(QueryException $e ){
-            response()->setStatusCode($e->getCode());
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
-            if (!auth()->guest()) {
-            return ['message'=> 'oops! something went wrong please try again.'];
-            }
-                return ['message'=> 'oops! something went wrong please try again.','data'=> $e->getMessage()];
+            return (env('APP_ENV') != 'production')
+                ? ['message'=>  $e->getMessage()]
+                : ['message'=> 'oops! something went wrong please try again.'];
         }
     }
 
@@ -39,9 +37,10 @@ class BaseRepository implements BaseRepositoryInterface
         try{
            return $this->model::all();
         }catch(QueryException $e ){
-            response()->setStatusCode($e->getCode());
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
-            return ['message'=> 'oops! something went wrong please try again.'];
+            return (env('APP_ENV') != 'production')
+                ? ['message'=>  $e->getMessage()]
+                : ['message'=> 'oops! something went wrong please try again.'];
         }
     }
 
@@ -51,14 +50,15 @@ class BaseRepository implements BaseRepositoryInterface
             return $this->model->create($properties);
         }catch(\Exception $e ){
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
-            return ['message'=> 'oops! something went wrong please try again.'];
+           return (env('APP_ENV') != 'production')
+               ? ['message'=>  $e->getMessage()]
+               : ['message'=> 'oops! something went wrong please try again.'];
         }
     }
 
     public function update(array $properties, int $id)
     {
         try{
-
             $model = $this->model::where('id', $id)
                 ->where('deleted_at', null)
                 ->update($properties);
@@ -67,9 +67,10 @@ class BaseRepository implements BaseRepositoryInterface
                 return  ['message' => 'Something went wrong with the register please try again'];
 
         }catch(QueryException $e ){
-            response()->setStatusCode($e->getCode());
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
-            return ['message' => 'oops! something went wrong please try again.'];
+            return (env('APP_ENV') != 'production')
+                ? ['message'=>  $e->getMessage()]
+                : ['message'=> 'oops! something went wrong please try again.'];
         }
 
     }
@@ -84,9 +85,11 @@ class BaseRepository implements BaseRepositoryInterface
                 return ['message' => 'Something went wrong with the register please try again'];
             }
         }catch(QueryException $e ){
-            response()->setStatusCode($e->getCode());
+
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
-            return ['message'=> 'oops! something went wrong please try again.'];
+            return (env('APP_ENV') != 'production')
+                ? ['message'=>  $e->getMessage()]
+                : ['message'=> 'oops! something went wrong please try again.'];
         }
     }
 
@@ -96,16 +99,16 @@ class BaseRepository implements BaseRepositoryInterface
             $model = $this->find($id);
             if ( $model instanceof Model ) {
                 $model->delete();
-                return ['message' => 'The register was deleted successfully'];
-            }else {
-                response()->setStatusCode(401);
+                return ['message' => 'register was deleted successfully'];
+            } else {
                 return ['message' => "register didn't find it"];
             }
         }
         catch(QueryException | Exception  $e){
-            response()->setStatusCode($e->getCode());
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
-            return ['message'=> 'oops! something went wrong please try again.'];
+            return (env('APP_ENV') != 'production')
+                ? ['message'=>  $e->getMessage()]
+                : ['message'=> 'oops! something went wrong please try again.'];
         }
     }
 }
