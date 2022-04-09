@@ -1,16 +1,19 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\GameController;
-use App\Http\Controllers\GenderController;
-use App\Http\Controllers\PenaltyController;
-use App\Http\Controllers\PenaltyGoalKeeperController;
-use App\Http\Controllers\PlayersController;
-use App\Http\Controllers\RefereeController;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\TeamsController;
+use App\Http\Controllers\{
+    CategoryController,
+    GameController,
+    GenderController,
+    PenaltyController,
+    PenaltyGoalKeeperController,
+    PlayersController,
+    RefereeController,
+    TeamsController,
+    GameGeneralDetailsController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +26,7 @@ use \App\Http\Controllers\TeamsController;
 |
 */
 require __DIR__ . '/../json-api-auth.php';
-use Laravel\Socialite\Facades\Socialite;
+
 
 Route::group(['prefix' => '/auth',['middleware' => 'throttle:20,5']], function(){
     Route::get('/login/{service}',[\App\Http\Controllers\SocialLoginController::class, 'redirect']);
@@ -68,6 +71,9 @@ Route::middleware(['auth:api'])->group(function(){
     ]);
     Route::apiResources([
         'games' => GameController::class
+    ]);
+    Route::apiResources([
+        'game-details' => GameGeneralDetailsController::class
     ]);
 });
 
