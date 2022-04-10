@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GameGeneralDetailsStoreRequest;
+use App\Http\Requests\GameGeneralDetailsUpdateRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\GameGeneralDetails;
 use App\Repository\Eloquent\BaseRepository;
@@ -22,11 +23,12 @@ class GameGeneralDetailsController extends Controller
     {
         return new BaseResource($this->repository->all($request));
     }
+
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @param GameGeneralDetailsStoreRequest $request
+     * @return BaseResource
      */
     public function store(GameGeneralDetailsStoreRequest $request): BaseResource
     {
@@ -47,13 +49,13 @@ class GameGeneralDetailsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return void
+     * @param GameGeneralDetailsUpdateRequest $request
+     * @param int $id
+     * @return BaseResource
      */
-    public function update(Request $request, $id)
+    public function update(GameGeneralDetailsUpdateRequest $request, int $id): BaseResource
     {
-        //
+        return new BaseResource($this->repository->update($request->validated(),$id));
     }
 
     /**
