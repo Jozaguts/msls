@@ -3,19 +3,24 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
-use App\Models\GameGeneralDetails;
+use App\Models\GameTimeDetail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
-class GameGeneralDetailsTest extends TestCase
+class GameTimeDetailsTable extends TestCase
 {
     use RefreshDatabase;
-    private string $basePath = '/api/v1/game-details';
+    private string $basePath = '/api/v1/game-time-details';
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Artisan::call('migrate:fresh --seed');
+    }
 
-    public function test_game_details_endpoint_exist()
+    public function test_game_time_details_endpoint_exist()
     {
         $user = User::factory()->make();
 
@@ -36,32 +41,28 @@ class GameGeneralDetailsTest extends TestCase
         $response->assertStatus(422);
     }
 
-    public function test_store_game_details()
+    public function test_store_game_time_details()
     {
-        Artisan::call('migrate:fresh --seed');
         $user = User::factory()->make();
         $game = Game::create(['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1]);
-
         $params = [
-            'game_id'=> $game->id,
-            'local_color'=> 'blue',
-            'away_color'=> 'red',
-            'local_captain_id'=> 1,
-            'away_captain_id'=> 2,
-            'referee_id'=> 3,
-            'first_assistance_referee_id'=> 4,
-            'second_referee_id'=> 5,
-            'third_referee_id'=> 6,
-        ];
+            'game_id' => $game->id,
+            'first_time_start' => '10:30',
+            'first_time_end' => '11:15',
+            'second_time_start' => '11:30',
+            'second_time_end' => '12:45',
+            'prorogue_minutes_start' => '00',
+            'first_time_extra_time' => '05',
+            'second_time_extra_time' => '05',
+            ];
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, $params);
-
         $response->assertCreated();
 
     }
 
-    public function test_get_all_game_details()
+    public function test_get_all_game_time_details()
     {
         $user = User::factory()->make();
         $response = $this->actingAs($user, 'api')
@@ -71,36 +72,45 @@ class GameGeneralDetailsTest extends TestCase
         $response->assertExactJson(['data' => []]);
     }
 
-    public function test_update_game_details()
+    public function test_update_game_time_details()
     {
         $user = User::factory()->make();
-        Artisan::call('migrate:fresh --seed');
         $params = ['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
         $game = Game::create($params);
         $attributes = [
-            'game_id'=> $game->id,
-            'local_color'=> 'blue',
-            'away_color'=> 'red',
-            'local_captain_id'=> 1,
-            'away_captain_id'=> 2,
-            'referee_id'=> 3,
-            'first_assistance_referee_id'=> 4,
-            'second_referee_id'=> 5,
-            'third_referee_id'=> 6,
+            'game_id' => $game->id,
+            'first_time_start' => '10:30',
+            'first_time_end' => '11:15',
+            'second_time_start' => '11:30',
+            'second_time_end' => '12:45',
+            'prorogue_minutes_start' => '00',
+            'first_time_extra_time' => '05',
+            'second_time_extra_time' => '05',
         ];
-        GameGeneralDetails::create($attributes);
-        $attributes['local_color'] = 'updated';
+        GameTimeDetail::create($attributes);
+        $attributes['second_time_extra_time'] = '00';
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->putJson("{$this->basePath}/1",$attributes);
+
         $response->assertOk();
     }
-
-    public function test_delete_game_details()
+    public function test_delete_game_time_details()
     {
-        $this->createGame();
-        $this->createDetails();
         $user = User::factory()->make();
+        $params = ['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
+        $game = Game::create($params);
+        $attributes = [
+            'game_id' => $game->id,
+            'first_time_start' => '10:30',
+            'first_time_end' => '11:15',
+            'second_time_start' => '11:30',
+            'second_time_end' => '12:45',
+            'prorogue_minutes_start' => '00',
+            'first_time_extra_time' => '05',
+            'second_time_extra_time' => '05',
+        ];
+        GameTimeDetail::create($attributes);
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->deleteJson("{$this->basePath}/1");
@@ -110,44 +120,24 @@ class GameGeneralDetailsTest extends TestCase
 
     public function test_hard_delete()
     {
-
-        $this->createGame();
         $user = User::factory()->make();
-
+        $params = ['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
+        $game = Game::create($params);
+        $attributes = [
+            'game_id' => $game->id,
+            'first_time_start' => '10:30',
+            'first_time_end' => '11:15',
+            'second_time_start' => '11:30',
+            'second_time_end' => '12:45',
+            'prorogue_minutes_start' => '00',
+            'first_time_extra_time' => '05',
+            'second_time_extra_time' => '05',
+        ];
+        GameTimeDetail::create($attributes);
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
-            ->postJson("api/v1/hard-delete",['table'=>'games','id'=> 1]);
+            ->postJson("api/v1/hard-delete",['table'=>'game_time_details','id'=> 1]);
         $response->assertSuccessful()
             ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
-    }
-
-    private function createGame()
-    {
-        Artisan::call('migrate:fresh --seed');
-        $params = [
-            'date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
-         Game::create($params);
-    }
-
-    private function createDetails()
-    {
-        Artisan::call('migrate:fresh --seed');
-        $user = User::factory()->make();
-        Game::create([ 'date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1]);
-
-        $params = [
-            'game_id'=> 1,
-            'local_color'=> 'blue',
-            'away_color'=> 'red',
-            'local_captain_id'=> 1,
-            'away_captain_id'=> 2,
-            'referee_id'=> 3,
-            'first_assistance_referee_id'=> 4,
-            'second_referee_id'=> 5,
-            'third_referee_id'=> 6,
-        ];
-        $response = $this->actingAs($user, 'api')
-            ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
-            ->postJson($this->basePath, $params);
     }
 }
