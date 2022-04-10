@@ -11,10 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use Illuminate\Support\Facades\Log;
+use function Symfony\Component\String\s;
 
 class BaseRepository implements BaseRepositoryInterface
 {
     protected Model $model;
+    const SUCCESS_RESPONSE = ['success' => true, 'message' => 'action was successfully processed'];
+    const ERROR_RESPONSE = ['success' => false, 'message' => "error action wasn't processed"];
     public function __construct(Model $model)
     {
         $this->model = $model;
@@ -40,7 +43,7 @@ class BaseRepository implements BaseRepositoryInterface
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return (env('APP_ENV') != 'production')
                 ? ['message'=>  $e->getMessage()]
-                : ['message'=> 'oops! something went wrong please try again.'];
+               : static::ERROR_RESPONSE;
         }
     }
 
@@ -52,25 +55,25 @@ class BaseRepository implements BaseRepositoryInterface
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
            return (env('APP_ENV') != 'production')
                ? ['message'=>  $e->getMessage()]
-               : ['message'=> 'oops! something went wrong please try again.'];
+               : static::ERROR_RESPONSE;
         }
     }
 
-    public function update(array $properties, int $id)
+    public function update(array $properties, int $id): array|Model
     {
         try{
-            $model = $this->model::where('id', $id)
+            if (! $this->find($id)) {
+               return ['message' =>'register not found!'];
+            }
+            $this->model::where('id', $id)
                 ->where('deleted_at', null)
                 ->update($properties);
-
-                if ($model) return $this->find($id);
-                return  ['message' => 'Something went wrong with the register please try again'];
-
+            return $this->find($id);
         }catch(QueryException $e ){
             Log::error($e->getMessage(),['Line' =>$e->getLine()]);
             return (env('APP_ENV') != 'production')
                 ? ['message'=>  $e->getMessage()]
-                : ['message'=> 'oops! something went wrong please try again.'];
+                : static::ERROR_RESPONSE;
         }
 
     }
@@ -79,6 +82,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         try{
             $model =  $this->model->find($id);
+
             if($model instanceof Model){
                 return $model;
             }else {
