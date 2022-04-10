@@ -38,9 +38,7 @@ class GameController extends Controller
 
     public function update(GameUpdateRequest $request, $id): BaseResource
     {
-        return new BaseResource($this->repository->update($request->only('name', 'group', 'category_id', 'won', 'draw', 'lost', 'goals_against', 'goals_for',
-            'goals_difference', 'points','gender_id'),$id)
-        );
+        return new BaseResource($this->repository->update($request->validated(),$id));
     }
 
 
