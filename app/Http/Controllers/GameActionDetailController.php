@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GameActionDetailStoreRequest;
+use App\Http\Requests\GameActionDetailUpdateRequest;
 use App\Http\Resources\BaseResource;
 use App\Models\GameActionDetail;
 use App\Repository\Eloquent\BaseRepository;
@@ -18,59 +19,33 @@ class GameActionDetailController extends Controller
         $this->repository = new BaseRepository($model);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @return BaseResource
-     */
+
     public function index(Request $request): BaseResource
     {
         return new BaseResource($this->repository->all($request));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param GameActionDetailStoreRequest $request
-     * @return BaseResource
-     */
+
     public function store(GameActionDetailStoreRequest $request): BaseResource
     {
         return new BaseResource($this->repository->create($request->validated()));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+
+    public function show($id): BaseResource
     {
-        //
+        return new BaseResource($this->repository->find($id));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(GameActionDetailUpdateRequest $request, $id): BaseResource
     {
-        //
+        return new BaseResource($this->repository->update($request->validated(),$id));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy($id): BaseResource
     {
-        //
+        return new BaseResource($this->repository->delete($id));
     }
 }

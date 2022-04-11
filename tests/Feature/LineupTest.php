@@ -3,17 +3,17 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
-use App\Models\GameActionDetail;
+use App\Models\Lineup;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
-class GameActionDetailTest extends TestCase
+class LineupTest extends TestCase
 {
     use RefreshDatabase;
-    private string $basePath = '/api/v1/game-action-details';
+    private string $basePath = '/api/v1/lineups';
 
     public function setUp():void
     {
@@ -48,16 +48,14 @@ class GameActionDetailTest extends TestCase
         $user = User::factory()->make();
         $game = Game::create(['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1]);
         $params = [
-            'action_id' => 1,
             'game_id' => $game->id,
             'player_id' => 1,
-            'minute' => '10:00',
-            'comment' => null,
+            'first_team_player' => 1,
+            'round' => 'jornada 1',
         ];
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->postJson($this->basePath, $params);
-
         $response->assertCreated();
 
     }
@@ -78,13 +76,12 @@ class GameActionDetailTest extends TestCase
         $params = ['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
         $game = Game::create($params);
         $attributes =  [
-            'action_id' => 1,
             'game_id' => $game->id,
             'player_id' => 1,
-            'minute' => '10:00',
-            'comment' => 'updated',];
-        $action = GameActionDetail::create($attributes );
-        $attributes['time'] = '11:00';
+            'first_team_player' => 1,
+            'round' => 'jornada 2'];
+        Lineup::create($attributes);
+        $attributes['round'] = 'jornada 2 updated';
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->putJson("{$this->basePath}/1",$attributes);
@@ -97,12 +94,11 @@ class GameActionDetailTest extends TestCase
         $params = ['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
         $game = Game::create($params);
         $attributes =  [
-            'action_id' => 1,
             'game_id' => $game->id,
             'player_id' => 1,
-            'minute' => '10:00',
-            'comment' => 'updated',];
-        GameActionDetail::create($attributes );
+            'first_team_player' => 1,
+            'round' => 'jornada 2'];
+        Lineup::create($attributes);
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -113,44 +109,20 @@ class GameActionDetailTest extends TestCase
 
     public function test_hard_delete()
     {
-
-        $this->createGame();
         $user = User::factory()->make();
+        $params = ['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
+        $game = Game::create($params);
+        $attributes =  [
+            'game_id' => $game->id,
+            'player_id' => 1,
+            'first_team_player' => 1,
+            'round' => 'jornada 2'];
+        Lineup::create($attributes);
 
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
-            ->postJson("api/v1/hard-delete",['table'=>'games','id'=> 1]);
+            ->postJson("api/v1/hard-delete",['table'=>'lineups','id'=> 1]);
         $response->assertSuccessful()
             ->assertExactJson(['data' => ["message" => "register was hard deleted successfully"]]);
-    }
-
-    private function createGame()
-    {
-
-        $params = [
-            'date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
-        Game::create($params);
-    }
-
-    private function createDetails()
-    {
-
-        $user = User::factory()->make();
-        Game::create([ 'date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1]);
-
-        $params = [
-            'game_id'=> 1,
-            'local_color'=> 'blue',
-            'away_color'=> 'red',
-            'local_captain_id'=> 1,
-            'away_captain_id'=> 2,
-            'referee_id'=> 3,
-            'first_assistance_referee_id'=> 4,
-            'second_referee_id'=> 5,
-            'third_referee_id'=> 6,
-        ];
-        $response = $this->actingAs($user, 'api')
-            ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
-            ->postJson($this->basePath, $params);
     }
 }

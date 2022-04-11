@@ -14,6 +14,8 @@ use App\Http\Controllers\{
     TeamsController,
     GameGeneralDetailsController,
     GameTimeDetailsController,
+    GameActionDetailController,
+    LineupsController
 };
 
 /*
@@ -80,7 +82,10 @@ Route::middleware(['auth:api'])->group(function(){
         'game-time-details' => GameTimeDetailsController::class
     ]);
     Route::apiResources([
-        'game-action-details' => GameTimeDetailsController::class
+        'game-action-details' => GameActionDetailController::class
+    ]);
+    Route::apiResources([
+        'lineups' => LineupsController::class
     ]);
 });
 

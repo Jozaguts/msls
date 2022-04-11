@@ -13,19 +13,17 @@ class CreateGameLineupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('game_lineups', function (Blueprint $table) {
+        Schema::create('lineups', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('game_id');
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
-
-            $table->unsignedBigInteger('team_id');
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-
             $table->unsignedBigInteger('player_id');
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
-            $table->boolean('main');
 
+            $table->boolean('first_team_player');
+            $table->string('round',30);
 
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -37,6 +35,6 @@ class CreateGameLineupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('match_lineups');
+        Schema::dropIfExists('lineups');
     }
 }
