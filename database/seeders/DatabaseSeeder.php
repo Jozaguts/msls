@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         $this->call(GendersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(TeamsTableSeeder::class);
+        $this->call(ActionTableSeeder::class);
         Artisan::call('passport:install');
         $players = Player::factory()
             ->count(175)

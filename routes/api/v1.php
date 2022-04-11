@@ -79,5 +79,8 @@ Route::middleware(['auth:api'])->group(function(){
     Route::apiResources([
         'game-time-details' => GameTimeDetailsController::class
     ]);
+    Route::apiResources([
+        'game-action-details' => GameTimeDetailsController::class
+    ]);
 });
 

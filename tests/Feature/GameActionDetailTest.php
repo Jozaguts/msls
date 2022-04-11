@@ -3,24 +3,24 @@
 namespace Tests\Feature;
 
 use App\Models\Game;
-use App\Models\GameGeneralDetails;
+use App\Models\GameActionDetail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
-class GameGeneralDetailsTest extends TestCase
+class GameActionDetailTest extends TestCase
 {
     use RefreshDatabase;
-    private string $basePath = '/api/v1/game-details';
+    private string $basePath = '/api/v1/game-action-details';
 
     public function setUp():void
     {
         parent::setUp();
         Artisan::call('migrate:fresh --seed');
-
     }
+
     public function test_game_details_endpoint_exist()
     {
         $user = User::factory()->make();
@@ -47,17 +47,12 @@ class GameGeneralDetailsTest extends TestCase
 
         $user = User::factory()->make();
         $game = Game::create(['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1]);
-
         $params = [
-            'game_id'=> $game->id,
-            'local_color'=> 'blue',
-            'away_color'=> 'red',
-            'local_captain_id'=> 1,
-            'away_captain_id'=> 2,
-            'referee_id'=> 3,
-            'first_assistance_referee_id'=> 4,
-            'second_referee_id'=> 5,
-            'third_referee_id'=> 6,
+            'action_id' => 1,
+            'game_id' => $game->id,
+            'player_id' => $user->id,
+            'time' => '10:00',
+            'comment' => null,
         ];
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
@@ -80,22 +75,16 @@ class GameGeneralDetailsTest extends TestCase
     public function test_update_game_details()
     {
         $user = User::factory()->make();
-
         $params = ['date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
         $game = Game::create($params);
-        $attributes = [
-            'game_id'=> $game->id,
-            'local_color'=> 'blue',
-            'away_color'=> 'red',
-            'local_captain_id'=> 1,
-            'away_captain_id'=> 2,
-            'referee_id'=> 3,
-            'first_assistance_referee_id'=> 4,
-            'second_referee_id'=> 5,
-            'third_referee_id'=> 6,
-        ];
-        GameGeneralDetails::create($attributes);
-        $attributes['local_color'] = 'updated';
+        $attributes =  [
+            'action_id' => 1,
+            'game_id' => $game->id,
+            'player_id' => 1,
+            'minute' => '10:00',
+            'comment' => 'updated',];
+        $action = GameActionDetail::create($attributes );
+        $attributes['time'] = '11:00';
         $response = $this->actingAs($user, 'api')
             ->withHeaders(['Content-Type' => 'application/json','Accept' => 'application/json'])
             ->putJson("{$this->basePath}/1",$attributes);
@@ -132,7 +121,7 @@ class GameGeneralDetailsTest extends TestCase
 
         $params = [
             'date' => now(), 'location' => 'La sabana', 'home_team_id' => 1, 'away_team_id' => 2, 'category_id' => 1];
-         Game::create($params);
+        Game::create($params);
     }
 
     private function createDetails()
